@@ -22,13 +22,20 @@ if ($_SESSION['user']) { ?>
                     <h1 class="dark:text-white">devchallenges</h1>
                 </div>
                 <div class="flex font-bold items-center mx-3 cursor-pointer" id="dropMenu">
-                    <img src="/public/download-removebg-preview.png" alt="" class="w-[30px] h-[30px] rounded-xl shadow-md dark:shadow-slate-900">
+                <?php
+                    if (isset($_SESSION['user']['photo'])) {
+                        $photo = base64_encode($_SESSION['user']['photo']);
+                        echo '<img src="data:image/jpg;base64,' . $photo . '" alt="" class="w-[30px] h-[30px] rounded-xl shadow-md dark:shadow-slate-900">';
+                    } else {
+                        echo '<img src="/public/download-removebg-preview.png" alt="" class="w-[30px] h-[30px] rounded-xl shadow-md dark:shadow-slate-900">';
+                    }
+                    ?>
                     <p class="mx-2 dark:text-white">
                         <?php
-                        if (isset($_SESSION['user']['nome'])) {
-                            echo $_SESSION['user']['nome'];
+                        if (isset($_SESSION['user']['name'])) {
+                            echo $_SESSION['user']['name'];
                         } else {
-                            echo $_SESSION['user']['nome'] = 'Nome User';
+                            echo $_SESSION['user']['name'] = 'Nome User';
                         }
                         ?>
                     </p>
@@ -77,11 +84,20 @@ if ($_SESSION['user']) { ?>
                             <p class="text-gray-400 ">Changes will be reflected to every services</p>
                         </div>
                     </div>
-                    <form action="" method="post">
+                    <form action="/src/handle_db/update_user.php" method="post" enctype="multipart/form-data">
                         <div class="px-10 py-5">
-                            <label for="file" class="flex items-center ">
-                                <input type="file" id="file" hidden>
-                                <img src="/public/download-removebg-preview.png" alt="" class="w-[70px] h-[70px] bg-black rounded-xl shadow-md cursor-pointer opacity-40 dark:shadow-slate-900">
+
+                            <label for="file" class="flex items-center">
+                                <input type="file" name="img" id="file" hidden onchange="previewImage(this)">
+                                <?php
+                    if (isset($_SESSION['user']['photo'])) {
+                        $photo = base64_encode($_SESSION['user']['photo']);
+                        echo '<img src="data:image/jpg;base64,' . $photo . '" id="imagePreview" alt="" class="w-[70px] h-[70px] bg-black rounded-xl shadow-md cursor-pointer opacity-40 dark:shadow-slate-900">';
+                    } else {
+                        echo '<img src="/public/download-removebg-preview.png" alt="" id="imagePreview" class="w-[70px] h-[70px] bg-black rounded-xl shadow-md cursor-pointer opacity-40 dark:shadow-slate-900">';
+                    }
+                    ?>
+                                
                                 <span class="material-symbols-outlined text-gray-600 relative -left-[46px] cursor-pointer">
                                     photo_camera
                                 </span>
@@ -89,24 +105,25 @@ if ($_SESSION['user']) { ?>
                             </label>
                             <div class="flex flex-col my-4">
                                 <label for="" class="text-sm font-semibold text-gray-600">Name</label>
-                                <input class="border border-gray-400 w-[400px] rounded-xl py-2 px-4 dark:bg-black dark:text-white" type="text" placeholder="Enter your Name..." value="<?= $_SESSION['user']['nome'] ?>">
+                                <input class="border border-gray-400 w-[400px] rounded-xl py-2 px-4 dark:bg-black dark:text-white" name="name" type="text" placeholder="Enter your Name..." value="<?= $_SESSION['user']['name'] ?>">
                             </div>
                             <div class="flex flex-col my-4">
                                 <label for="" class="text-sm font-semibold text-gray-600">Bio</label>
-                                <input class="border border-gray-400 w-[400px] h-[75px] rounded-xl py-2 px-4 dark:bg-black dark:text-white" type="text" placeholder="Enter your Bio..." value="<?= $_SESSION['user']['bio'] ?>">
+                                <input class="border border-gray-400 w-[400px] h-[75px] rounded-xl py-2 px-4 dark:bg-black dark:text-white" type="text" name="bio" placeholder="Enter your Bio..." value="<?= $_SESSION['user']['bio'] ?>">
                             </div>
                             <div class="flex flex-col my-4">
-                                <label for="" class="text-sm font-semibold text-gray-600"><?= $_SESSION['user']['phone'] ?></label>
-                                <input class="border border-gray-400 w-[400px] rounded-xl py-2 px-4 dark:bg-black dark:text-white" type="text" placeholder="Enter your Phone..." value="">
+                                <label for="" class="text-sm font-semibold text-gray-600">PHONE</label>
+                                <input class="border border-gray-400 w-[400px] rounded-xl py-2 px-4 dark:bg-black dark:text-white" type="text" placeholder="Enter your Phone..." name="phone" value="<?= $_SESSION['user']['phone'] ?>">
                             </div>
                             <div class="flex flex-col my-4">
                                 <label for="" class="text-sm font-semibold text-gray-600">Email</label>
-                                <input class="border border-gray-400 w-[400px] rounded-xl py-2 px-4 dark:bg-black dark:text-white" type="email" placeholder="Enter your Email..." value="<?= $_SESSION['user']['email'] ?>">
+                                <input class="border border-gray-400 w-[400px] rounded-xl py-2 px-4 dark:bg-black dark:text-white" type="email" placeholder="Enter your Email..." name="email" value="<?= $_SESSION['user']['email'] ?>">
                             </div>
                             <div class="flex flex-col my-4">
                                 <label for="" class="text-sm font-semibold text-gray-600">Password</label>
-                                <input class="border border-gray-400 w-[400px] rounded-xl py-2 px-4 dark:bg-black dark:text-white" type="text" placeholder="Enter your new Password..." value="">
+                                <input class="border border-gray-400 w-[400px] rounded-xl py-2 px-4 dark:bg-black dark:text-white" type="text" placeholder="Enter your new Password..." name="password" value="">
                             </div>
+                            <input type="text" name="id" value="<?= $_SESSION['user']['id_usuario'] ?>" hidden>
                             <button class="bg-blue-600 active:bg-white active:text-blue-600 py-2 px-6 text-white rounded-xl">Save</button>
                         </div>
                     </form>

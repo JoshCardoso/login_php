@@ -4,7 +4,6 @@ const btnBlack= document.getElementById('btnBlack');
 
 btnBlack.addEventListener('click',()=>{
     const isDark =localStorage.getItem("darkMode");
-    console.log(isDark);
     if (isDark === "true"){
         localStorage.setItem("darkMode", false);
         setDarkMode();
@@ -16,13 +15,23 @@ btnBlack.addEventListener('click',()=>{
 
 function setDarkMode(){
     const isDark = localStorage.getItem("darkMode");
-
     if(isDark === "true"){
         document.documentElement.classList.add("dark");
     }
     if(isDark === "false"){
         document.documentElement.classList.remove("dark");
     }
+}
+
+function previewImage(input) {
+    const imagePreview = document.getElementById('imagePreview');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            imagePreview.src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    } 
 }
 
 window.addEventListener("load",setDarkMode)

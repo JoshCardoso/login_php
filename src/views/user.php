@@ -22,13 +22,21 @@ if ($_SESSION['user']) { ?>
                     <h1 class="dark:text-white">devchallenges</h1>
                 </div>
                 <div class="flex font-bold items-center mx-3 cursor-pointer" id="dropMenu">
-                    <img src="/public/download-removebg-preview.png" alt="" class="w-[30px] h-[30px] rounded-xl shadow-md dark:shadow-slate-900">
+                    <?php
+                    if (isset($_SESSION['user']['photo'])) {
+                        $photo = base64_encode($_SESSION['user']['photo']);
+                        echo '<img src="data:image/jpg;base64,' . $photo . '" alt="" class="w-[30px] h-[30px] rounded-xl shadow-md dark:shadow-slate-900">';
+                    } else {
+                        echo '<img src="/public/download-removebg-preview.png" alt="" class="w-[30px] h-[30px] rounded-xl shadow-md dark:shadow-slate-900">';
+                    }
+                    ?>
+
                     <p class="mx-2 dark:text-white">
                         <?php
-                        if (isset($_SESSION['user']['nome'])) {
-                            echo $_SESSION['user']['nome'];
+                        if (isset($_SESSION['user']['name'])) {
+                            echo $_SESSION['user']['name'];
                         } else {
-                            echo $_SESSION['user']['nome'] = 'Nome User';
+                            echo $_SESSION['user']['name'] = 'Nome User';
                         }
                         ?>
                     </p>
@@ -90,6 +98,12 @@ if ($_SESSION['user']) { ?>
                             <P class="text-gray-400">PHOTO</P>
                         </div>
                         <div>
+                            <?php
+                            if (isset($_SESSION['user']['photo'])) {
+                                $photo = base64_encode($_SESSION['user']['photo']);
+                                echo '<img src="data:image/jpg;base64,' . $photo . '" alt="" class="w-[70px] h-[70px] bg-black rounded-xl shadow-md dark:shadow-slate-900"';
+                            }
+                            ?>
                             <img src="/public/download-removebg-preview.png" alt="" class="w-[70px] h-[70px] bg-black rounded-xl shadow-md dark:shadow-slate-900">
                         </div>
                     </div>
@@ -98,7 +112,7 @@ if ($_SESSION['user']) { ?>
                             <P class="text-gray-400">NAME</P>
                         </div>
                         <div>
-                            <p class="dark:text-white"><?= $_SESSION['user']['nome'] ?></p>
+                            <p class="dark:text-white"><?= $_SESSION['user']['name'] ?></p>
                         </div>
                     </div>
                     <div class="flex items-center px-10 py-6  border-b border-gray-400">
@@ -123,7 +137,7 @@ if ($_SESSION['user']) { ?>
                         </div>
                         <div>
                             <p class="dark:text-white">
-                            <?php
+                                <?php
                                 if (isset($_SESSION['user']['phone'])) {
                                     echo $_SESSION['user']['phone'];
                                 } else {
@@ -139,7 +153,7 @@ if ($_SESSION['user']) { ?>
                         </div>
                         <div>
                             <p class="dark:text-white">
-                            <?= $_SESSION['user']['email'] ?></p>
+                                <?= $_SESSION['user']['email'] ?></p>
                         </div>
                     </div>
                     <div class="flex items-center px-10 py-6  ">
