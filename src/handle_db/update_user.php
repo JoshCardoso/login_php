@@ -5,10 +5,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once($_SERVER['DOCUMENT_ROOT'] . '/src/handle_db/connection.php');
     extract($_POST);
     
-    if($_FILES['img']['tmp_name']){
+    if(!$_FILES['img']['tmp_name'] == ""){
         $photo = addslashes(file_get_contents($_FILES['img']['tmp_name']));
         $hash = password_hash($password, PASSWORD_DEFAULT);
+    }else{
+        $photo="";
     }
+    
 
     $name !== "" && $conn->query("UPDATE usuarios SET name = '$name' WHERE id_usuario = $id");
     $bio !== "" && $conn->query("UPDATE usuarios SET bio = '$bio' WHERE id_usuario = $id");

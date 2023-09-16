@@ -31,7 +31,7 @@
                 mail
               </span>
             </label>
-            <input class="outline-none w-full focus:bg-black  dark:bg-black dark:text-white" type="email" name="email" id="email" placeholder="Email" required>
+            <input class="outline-none w-full dark:bg-black dark:text-white" type="email" name="email" id="email" placeholder="Email" required>
           </div>
           <div class="flex items-center border-2 border-gray-400 p-1 rounded-xl my-4">
             <label for="password">
