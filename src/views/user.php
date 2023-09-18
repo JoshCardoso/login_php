@@ -102,9 +102,11 @@ if ($_SESSION['user']) { ?>
                             if (isset($_SESSION['user']['photo'])) {
                                 $photo = base64_encode($_SESSION['user']['photo']);
                                 echo '<img src="data:image/jpg;base64,' . $photo . '" alt="" class="w-[70px] h-[70px] bg-black rounded-xl shadow-md dark:shadow-slate-900"';
+                            }else{
+                                echo ' <img src="/public/download-removebg-preview.png" alt="" class="w-[70px] h-[70px] bg-black rounded-xl shadow-md dark:shadow-slate-900">';
                             }
                             ?>
-                            <img src="/public/download-removebg-preview.png" alt="" class="w-[70px] h-[70px] bg-black rounded-xl shadow-md dark:shadow-slate-900">
+                            
                         </div>
                     </div>
                     <div class="flex items-center px-10 py-6  border-b border-gray-400">
